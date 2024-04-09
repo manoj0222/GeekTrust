@@ -1,0 +1,123 @@
+/* CSS styles */
+.search_section{
+  margin: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-icon{
+    height: 30px;
+    margin-left: -10px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+input[type="text"] {
+    width: 200px;
+    padding: 6px;
+    margin-right: 10px;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+    background-color: white;
+}
+
+.pagination button {
+    padding: 1%;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+    background-color: whitesmoke;
+    border-radius: 60%;
+    margin: 1%;
+}
+
+.pagination button:hover {
+    background-color: rgb(200, 197, 197);
+}
+
+
+
+.edit-record, .delete-record{
+    background-color: white;
+    border: none;
+    border-radius: 2px;
+    padding: 4%;
+}
+.edit-record:hover{
+    background-color: rgb(209, 209, 240);
+}
+.delete-record:hover{
+    background-color:rgb(249, 140, 140);
+}
+
+
+#deleteSelectedButton {
+    margin-top: 10px;
+    color: black;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin: 0 auto;
+    font-weight: 200;
+    font-size: 0.7em;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: rgb(241, 239, 239);
+    border-radius: 0.4em;
+    position: relative;
+    top:-3.4em;
+}
+
+#deleteSelectedButton:hover {
+    color: #d32f2f;
+    background-color: #f59494;
+}
+
+/* .selected {
+    background-color: rgb(200, 197, 197);
+} */
+
+@media screen and (max-width: 600px) {
+    input[type="text"] {
+        width: 40%;
+    }
+    #searchButton {
+        width: 28%;
+    }
+    table{
+        width:100%;
+        font-size: 0.8em;
+    }
+
+    .pagination button{
+       padding: 1.2%;
+    }
+
+    #deleteSelectedButton{
+        top:-3.0em;
+    }
+}
+
+
+
+
