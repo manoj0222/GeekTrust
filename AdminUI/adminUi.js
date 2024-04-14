@@ -1,23 +1,25 @@
+import { creatPaginationButton, creatButton } from "./Pagination/Pagination.js"
+
 const apiUrl = 'https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json';
 const itemsPerPage = 10;
 let currentPage = 1;
 let data = []; // Empty array to store fetched data
-let deleteSelected =[];
-const firstPageBtn = creatButton();
-const prevPageBtn =  creatButton();
-const nextPageBtn =  creatButton();
-const lastPageBtn =  creatButton();
+let deleteSelected = [];
+document.getElementById("searchInput").addEventListener("keypress", (event) => {onPressEnterInsideSearchBox(event)});
+document.getElementById("deleteSelectedButton").addEventListener("click", (event) => {deletedSelectedRows(event)});
+
 const imagePaths =
-[
-    "./images/left-button.png","./images/previous-button.png",
-    "./images/next-button.png","./images/rightbutton.png"
-]
+    [
+        "./images/left-button.png",
+        "./images/previous-button.png",
+        "./images/next-button.png",
+        "./images/rightbutton.png"
+    ]
 
 /**
  * purpose of the below mention function to hit the BackEnd url and get the based on the 
  * response call the method or print the error if we got any.
  */
-
 async function fetchData() {
     try {
         const response = await fetch(apiUrl);
@@ -43,7 +45,7 @@ const renderTable = (records) => {
     const endIndex = startIndex + itemsPerPage;
     for (let i = startIndex; i < endIndex && i < records.length; i++) {
         let eachRow = renderRow(records[i])
-        addingEventListeners(eachRow,records[i])
+        addingEventListeners(eachRow, records[i])
         tableBody.appendChild(eachRow);
     }
 }
@@ -74,16 +76,16 @@ const renderRow = (record) => {
  * add event listeners for each row for particular columns.
  * @param {*} row 
  */
-const addingEventListeners = (row,rowdata) => {
+const addingEventListeners = (row, rowdata) => {
     const editButton = row.querySelector('.edit-record');
     const deleteButton = row.querySelector('.delete-record');
-    const checkbox =row.querySelector(".row-checkbox");
+    const checkbox = row.querySelector(".row-checkbox");
     editButton.addEventListener('click', () => { handleEditRow(row) });
     deleteButton.addEventListener('click', handleDeleteRow);
-    checkbox.addEventListener('change',()=>{handleCheckboxChange(rowdata,checkbox)})
-    row.isSelected=false;
-    row.addEventListener('click',()=>{handleRowSelection(row,rowdata)});
-
+    checkbox.addEventListener('change', () => { handleCheckboxChange(rowdata, checkbox) })
+    row.isSelected = false;
+    row.addEventListener('click', () => { handleRowSelection(row, rowdata) });
+   
 }
 
 // Function to render pagination buttons
@@ -91,83 +93,73 @@ function renderPagination(records) {
     const pagination = document.querySelector('.pagination');
     pagination.innerHTML = '';
     const totalPages = Math.ceil(records.length / itemsPerPage);
+    let leftButton  = creatPaginationButton("firstPageBtn", imagePaths[0]);
+    let prevPageBtn = creatPaginationButton("previousPageBtn", imagePaths[1]);
+    let nextPageBtn = creatPaginationButton("nextPageBtn", imagePaths[2]);
+    let lastPageBtn = creatPaginationButton("lastPageBtn", imagePaths[3]);
+    console.log("Hello1");
     if(totalPages==1){
+
+        for (let i = 1; i <= totalPages; i++) {
             const pageBtn = creatButton();
-            pageBtn.textContent = totalPages;
-            pageBtn.id="page-"+totalPages;
+            pageBtn.textContent = i;
+            pageBtn.id = "page-" + i;
             pageBtn.addEventListener('click', () => {
-                currentPage = totalPages;
+                currentPage = i;
                 renderTable(records);
-                changePaginationbuttoncolor(totalPages,pagination);
+                changePaginationbuttoncolor(i, pagination);
             });
             pagination.appendChild(pageBtn);
-            renderTable(records);
-            changePaginationbuttoncolor(totalPages,pagination); 
-    }
-    else{
-    addStaticImageBtnInPagination(firstPageBtn,imagePaths[0])
-    firstPageBtn.id="firstPageBtn";
-    firstPageBtn.addEventListener('click', () => {
-        currentPage = 1;
-        renderTable(records);
-        changePaginationbuttoncolor(currentPage,pagination)
-    });
-    pagination.appendChild(firstPageBtn);
-    addStaticImageBtnInPagination(prevPageBtn,imagePaths[1])
-    prevPageBtn.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            renderTable(records);
-            changePaginationbuttoncolor(currentPage,pagination)
         }
-    });
-    pagination.appendChild(prevPageBtn);
-    for (let i = 1; i <= totalPages; i++) {
-        const pageBtn = creatButton();
-        pageBtn.textContent = i;
-        pageBtn.id="page-"+i;
-        pageBtn.addEventListener('click', () => {
-            currentPage = i;
+        changePaginationbuttoncolor(currentPage, pagination);
+    }
+     else{
+        leftButton.addEventListener('click', () => {
+            currentPage = 1;
             renderTable(records);
-            changePaginationbuttoncolor(i,pagination);
+            changePaginationbuttoncolor(currentPage, pagination)
         });
-        pagination.appendChild(pageBtn);
-    }
-
-    addStaticImageBtnInPagination(nextPageBtn,imagePaths[2])
-    nextPageBtn.id="nextPageBtn";
-    nextPageBtn.addEventListener('click', () => {
-        if (currentPage < totalPages) {
-            currentPage++;
-            renderTable(records);
-            changePaginationbuttoncolor(currentPage,pagination)
+        pagination.appendChild(leftButton);
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable(records);
+                changePaginationbuttoncolor(currentPage, pagination)
+            }
+        });
+        pagination.appendChild(prevPageBtn);
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = creatButton();
+            pageBtn.textContent = i;
+            pageBtn.id = "page-" + i;
+            pageBtn.addEventListener('click', () => {
+                currentPage = i;
+                renderTable(records);
+                changePaginationbuttoncolor(i, pagination);
+            });
+            pagination.appendChild(pageBtn);
         }
-    });
+        nextPageBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable(records);
+                changePaginationbuttoncolor(currentPage, pagination)
+            }
+        });
+        pagination.appendChild(nextPageBtn);
+        lastPageBtn.addEventListener('click', () => {
+            currentPage = totalPages;
+            renderTable(records);
+            changePaginationbuttoncolor(currentPage, pagination)
 
-    pagination.appendChild(nextPageBtn);
-    addStaticImageBtnInPagination(lastPageBtn,imagePaths[3])
-    lastPageBtn.id="lastPageBtn";
-    lastPageBtn.addEventListener('click', () => {
-        currentPage = totalPages;
-        renderTable(records);
-        changePaginationbuttoncolor(currentPage,pagination)
-        
-    });
-    pagination.appendChild(lastPageBtn);
-    changePaginationbuttoncolor(currentPage,pagination)
-  }
+        });
+        pagination.appendChild(lastPageBtn);
+        changePaginationbuttoncolor(currentPage, pagination);
+     }
+
 }
 
 
-/*
- * * 
- * This method simply add static images in the pagination component for respective button
- * @param {*} paginationbutton 
- * @param {*} imagepath 
- */
-const addStaticImageBtnInPagination =(paginationbutton,imagepath)=>{
-    paginationbutton.innerHTML= `<img src="${imagepath}" alt="_leftButton" width="10px"/>`
-}
 
 
 /**
@@ -176,6 +168,7 @@ const addStaticImageBtnInPagination =(paginationbutton,imagepath)=>{
  */
 function handleSearch() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    currentPage=1;
     /**
      * In case if doesn't mention anything in search a
      */
@@ -212,27 +205,27 @@ function handleDeleteRow(event) {
 }
 
 // Function to handle row selection
-function handleRowSelection(row,rowdata) {
-    if(row.isSelected==false){
-       row.style.backgroundColor="rgb(200, 197, 197)"
-       row.isSelected=true;
-       deleteSelected.push(rowdata.id)
+function handleRowSelection(row, rowdata) {
+    if (row.isSelected == false) {
+        row.style.backgroundColor = "rgb(200, 197, 197)"
+        row.isSelected = true;
+        deleteSelected.push(rowdata.id)
 
     }
-    else{
-        row.style.backgroundColor="white"
-        row.isSelected=false;
-        deleteSelected=deleteSelected.filter(id =>{
-            id==row.id
+    else {
+        row.style.backgroundColor = "white"
+        row.isSelected = false;
+        deleteSelected = deleteSelected.filter(id => {
+            id == row.id
         })
     }
-    
+
 }
 
 const onPressEnterInsideSearchBox = (event) => {
     if (event.key === "Enter") {
         event.preventDefault();
-        handleSearch()
+        handleSearch();
     }
 }
 
@@ -255,61 +248,55 @@ const handleEditRow = (row) => {
     renderTable(data);
 }
 
-function creatButton() {
-    const button = document.createElement('button');
-    return button;
-}
 
-const changePaginationbuttoncolor = (id,pagination) => {
+
+const changePaginationbuttoncolor = (id, pagination) => {
     const allPageBtns = pagination.querySelectorAll('button');
-    const currentPageButton =  document.getElementById(`page-${id}`);
-    console.log(allPageBtns)
-    console.log(currentPageButton)
-    allPageBtns.forEach(btn => {
-        if(btn.id===currentPageButton.id){
-            btn.style.backgroundColor = '#ADD8E6';
+    const currentPageButton = document.getElementById(`page-${id}`);
+    for (let i = 0; i < allPageBtns.length; i++) {
+        if (allPageBtns[i].id === currentPageButton.id) {
+            allPageBtns[i].style.backgroundColor = '#ADD8E6';
         }
-        else{ 
-            btn.style.backgroundColor = 'whitesmoke';
+        else {
+            allPageBtns[i].style.backgroundColor = 'whitesmoke';
         }
-         // Reset background color for all buttons
-    });
+    }
 
 };
 
 
-const deleteBasedSelected =(eachRow)=>{
-    if(eachRow.isSelected===true){
+const deleteBasedSelected = (eachRow) => {
+    if (eachRow.isSelected === true) {
         return false;
     }
     return true
 }
 
-function deletedSelectedRows(){
+function deletedSelectedRows() {
     console.log(data.length)
     console.log(deleteSelected)
-     data = data.filter((eachrow)=>{
-        if(deleteSelected.includes(eachrow.id)){
+    data = data.filter((eachrow) => {
+        if (deleteSelected.includes(eachrow.id)) {
             return false;
-          }
-        else{
+        }
+        else {
             return true;
         }
     })
     console.log(data.length)
     renderTable(data);
-    renderPagination(data); 
+    renderPagination(data);
 }
 
 
-function handleCheckboxChange(record,checkbox){
- console.log(checkbox.checked)
-    if(checkbox.checked){
+function handleCheckboxChange(record, checkbox) {
+    console.log(checkbox.checked)
+    if (checkbox.checked) {
         deleteSelected.push(record.id)
     }
-    else{
-        deleteSelected=deleteSelected.filter((id)=>{
-            id!==record.id
+    else {
+        deleteSelected = deleteSelected.filter((id) => {
+            id !== record.id
         })
     }
 }
