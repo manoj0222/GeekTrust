@@ -7,7 +7,8 @@
     "test": "npm test",
     "start": "http-server . -q",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "stop": "npm stop"
   },
   "author": "Manoj kumar.B",
   "license": "ISC",

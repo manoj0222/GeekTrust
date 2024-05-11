@@ -1,13 +1,39 @@
 /* CSS styles */
+
+body{
+    box-sizing: content-box;
+    padding: 0px;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3%;
+}
+
 .search_section{
-  margin: 2%;
+  margin-bottom: 1vh;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width:60%;
+  height: auto;
+  padding: 1rem;
 }
 .search-icon{
-    height: 30px;
+    padding: 0.7rem 1rem 0.7rem 1rem;
     margin-left: -10px;
+    border-radius: 10px;
+    border: none;
+}
+#searchInput{
+    max-width: 500px;
+    width: 80%;
+    padding: 0.5rem;
 }
 
 
@@ -15,9 +41,12 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    scroll-behavior: smooth;
+    
 }
+
 
 th, td {
     border: 1px solid #ddd;
@@ -30,16 +59,31 @@ th {
     background-color: #f2f2f2;
 }
 
-input[type="text"] {
-    width: 200px;
-    padding: 6px;
-    margin-right: 10px;
+tfoot{
+  width: 100%;
+  border: 1px solid black;
+}
+
+.edit-record, .delete-record{
+    background-color: white;
+    border: none;
+    border-radius: 2px;
+    padding: 4%;
+    cursor: pointer;
+}
+.edit-record:hover{
+    background-color: rgb(209, 209, 240);
+}
+.delete-record:hover{
+    background-color:rgb(249, 140, 140);
 }
 
 .pagination {
     margin-top: 20px;
     text-align: center;
     background-color: white;
+    flex-grow: 1;
+    font-size: 1rem;
 }
 
 .pagination button {
@@ -50,6 +94,7 @@ input[type="text"] {
     background-color: whitesmoke;
     border-radius: 60%;
     margin: 1%;
+    
 }
 
 .pagination button:hover {
@@ -58,22 +103,9 @@ input[type="text"] {
 
 
 
-.edit-record, .delete-record{
-    background-color: white;
-    border: none;
-    border-radius: 2px;
-    padding: 4%;
-}
-.edit-record:hover{
-    background-color: rgb(209, 209, 240);
-}
-.delete-record:hover{
-    background-color:rgb(249, 140, 140);
-}
-
 
 #deleteSelectedButton {
-    margin-top: 10px;
+    margin-left: 10%;
     color: black;
     border: none;
     padding: 10px;
@@ -84,8 +116,7 @@ input[type="text"] {
     font-family: Georgia, 'Times New Roman', Times, serif;
     background-color: rgb(241, 239, 239);
     border-radius: 0.4em;
-    position: relative;
-    top:-3.4em;
+    
 }
 
 #deleteSelectedButton:hover {
@@ -93,31 +124,76 @@ input[type="text"] {
     background-color: #f59494;
 }
 
-/* .selected {
-    background-color: rgb(200, 197, 197);
-} */
+
 
 @media screen and (max-width: 600px) {
-    input[type="text"] {
-        width: 40%;
+    .search_section{
+      width:95%;
     }
-    #searchButton {
-        width: 28%;
-    }
-    table{
+     #searchInput{
         width:100%;
-        font-size: 0.8em;
+     }
+     .table{
+        width:90%;
+     }
+}
+
+@media 
+only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px){
+    /* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+    tr { 
+        border: 1px solid black; 
+        margin-bottom: 10px;
+        border-radius: 9px;
+    }
+
+    td { 
+		border: none;
+		border-bottom: 2px solid #eee; 
+		position: relative;
+		padding-left: 8%; 
+        white-space:wrap;
+        text-align: end;
+        height: auto;
+	}
+
+    td:before { 
+		position: absolute;
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		white-space: wrap;
+        text-align: start;
+	}
+
+    td:nth-of-type(2):before { 
+        content: "Name:"; 
+        
+    }
+	td:nth-of-type(3):before {
+         content: "Email:";
+     }
+	td:nth-of-type(4):before { 
+        content: "Role:"; 
+    }
+	td:nth-of-type(5):before { 
+        content: "Action:"; 
     }
 
     .pagination button{
-       padding: 1.2%;
+       padding: 0.8rem;
+       font-size: 0.8rem;
     }
 
     #deleteSelectedButton{
-        top:-3.0em;
+       padding: 0.8rem;
+       font-size: 0.8rem;
+       margin-left: 38%;
     }
+
 }
-
-
 
 
