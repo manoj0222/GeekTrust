@@ -1,0 +1,20 @@
+{
+  "name": "adminui",
+  "version": "1.0.0",
+  "description": "admindashboard",
+  "main": "script.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "http-server . -q",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "author": "Manoj kumar.B",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  }
+}

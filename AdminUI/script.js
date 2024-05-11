@@ -1,4 +1,5 @@
-import { creatPaginationButton, creatButton } from "./Pagination/Pagination.js"
+import { creatPaginationButton, creatButton } from  "./Pagination.js";
+
 
 const apiUrl = 'https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json';
 const itemsPerPage = 10;
@@ -182,7 +183,7 @@ function handleSearch() {
     else {
         const filteredData = data.filter(item => {
             for (let key in item) {
-                if (item[key].toString().toLowerCase() == searchInput.toLowerCase()) {
+                if (item[key].toString().toLowerCase().includes(searchInput.toLowerCase())) {
                     return true;
                 }
             }
